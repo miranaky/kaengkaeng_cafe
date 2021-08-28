@@ -12,7 +12,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.fromLTRB(38, 28, 38, 10),
+      padding: EdgeInsets.fromLTRB(28, 28, 28, 10),
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage("images/bg.png"),
@@ -26,8 +26,14 @@ class _HomeState extends State<Home> {
             height: 30,
           ),
           SizedBox(
-            height: 120,
-            child: ScreenTitle(text: "Kaengkaeng Cafe"),
+            height: 110,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ScreenTitle(text: "Kaengkaeng Cafe"),
+              ],
+            ),
           ),
           Flexible(
             child: MenuList(),

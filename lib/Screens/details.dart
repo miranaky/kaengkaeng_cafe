@@ -21,11 +21,14 @@ class Details extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             ClipRRect(
-              child: Image.asset(
-                "images/${menu.img}",
-                height: 420,
-                fit: BoxFit.contain,
-                alignment: Alignment.bottomCenter,
+              child: Hero(
+                tag: 'location-img-${menu.img}',
+                child: Image.asset(
+                  "images/${menu.img}",
+                  height: 420,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.bottomCenter,
+                ),
               ),
             ),
             SizedBox(height: 30),
