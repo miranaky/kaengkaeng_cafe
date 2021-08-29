@@ -9,12 +9,14 @@ class MenuList extends StatefulWidget {
 
 class _MenuListState extends State<MenuList> {
   List<Widget> _menuTiles = [];
-  final GlobalKey _listKey = GlobalKey();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
     super.initState();
-    _addMenus();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _addMenus();
+    });
   }
 
   void _addMenus() {
@@ -28,8 +30,15 @@ class _MenuListState extends State<MenuList> {
       Cafe(name: "Frappuccino", price: "5.0", img: "frappuccino.jpg"),
       Cafe(name: "Frappe", price: "4.0", img: "frappe.jpg"),
     ];
+
+    Future ft = Future(() {});
     _menus.forEach((Cafe cafe) {
-      _menuTiles.add(_buildMenu(cafe));
+      ft = ft.then((_) {
+        return Future.delayed(const Duration(milliseconds: 150), () {
+          _menuTiles.add(_buildMenu(cafe));
+          _listKey.currentState?.insertItem(_menuTiles.length - 1);
+        });
+      });
     });
   }
 
@@ -62,13 +71,18 @@ class _MenuListState extends State<MenuList> {
     );
   }
 
+  Tween<Offset> _offset = Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0));
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return AnimatedList(
       key: _listKey,
-      itemCount: _menuTiles.length,
-      itemBuilder: (context, index) {
-        return _menuTiles[index];
+      initialItemCount: _menuTiles.length,
+      itemBuilder: (context, index, animation) {
+        return SlideTransition(
+          position: animation.drive(_offset),
+          child: _menuTiles[index],
+        );
       },
     );
   }
